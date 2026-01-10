@@ -11,10 +11,35 @@
 <body>
 
 <div id="home">
-  <h1>ANALYZER v4.7</h1>
+  <div class="logo">
+    <h1>HEXACHEM INDUSTRIES</h1>
+    <p class="tagline">Fuel. Purity. Control.</p>
+  </div>
+
   <button onclick="startAnalysis('fuel')">Analiza jakości paliwa</button>
   <button onclick="startAnalysis('toxin')">Analiza toksyn</button>
+
+  <div class="fluff">
+    <p class="warning">
+      ⚠️ Wyniki analizy mają charakter informacyjny.  
+      HexaChem Industries nie ponosi odpowiedzialności za decyzje
+      podjęte na podstawie odczytów urządzenia.
+    </p>
+
+    <p class="update">
+      🔒 Dostępna nowa wersja ANALYZER v5.0  
+      (rozszerzone spektrum, certyfikacja korporacyjna)  
+      <span class="locked">— dostęp odpłatny</span>
+    </p>
+
+    <div class="links">
+      <span>Terms & Conditions</span> |
+      <span>Safety Compliance</span> |
+      <span>Privacy Policy</span>
+    </div>
+  </div>
 </div>
+
 
 <div id="analysis" class="hidden">
   <h2 id="analysisTitle"></h2>
