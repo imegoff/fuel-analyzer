@@ -87,6 +87,12 @@ function showResults(time) {
   const data = buildData(quality);
   renderTable(data);
   renderChart(data, quality);
+  const alert = document.getElementById("qualityAlert");
+
+if (quality === "good") alert.innerText = "🟢 JAKOŚĆ WYSOKA – próbka zgodna z normami.";
+if (quality === "medium") alert.innerText = "🟡 JAKOŚĆ ŚREDNIA – zalecana filtracja.";
+if (quality === "bad") alert.innerText = "🔴 ALERT – WYSOKI POZIOM ZANIECZYSZCZEŃ.";
+
 }
 
 
