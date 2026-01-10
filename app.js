@@ -75,11 +75,20 @@ function showResults(time) {
   document.getElementById("loading").classList.add("hidden");
   document.getElementById("results").classList.remove("hidden");
 
-  let quality = time < 1 ? "good" : time <= 3 ? "medium" : "bad";
+  let quality;
+  if (time < 1) quality = "good";
+  else if (time <= 3) quality = "medium";
+  else quality = "bad";
+
+  if (quality === "bad") {
+    document.body.classList.add("alarm");
+  }
+
   const data = buildData(quality);
   renderTable(data);
-  renderChart(data);
+  renderChart(data, quality);
 }
+
 
 function buildData(quality) {
   const base = quality === "good" ? 20 : quality === "medium" ? 55 : 85;
