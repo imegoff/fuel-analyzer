@@ -8,8 +8,11 @@ body {
   overflow: hidden;
 }
 
-h1, h2 { text-shadow: 0 0 8px #00ffe1; }
+h1, h2 {
+  text-shadow: 0 0 8px #00ffe1;
+}
 
+/* ===== BUTTONS (mobile-safe) ===== */
 button {
   background: transparent;
   border: 2px solid #00ffe1;
@@ -20,6 +23,11 @@ button {
   text-transform: uppercase;
   letter-spacing: 2px;
   box-shadow: 0 0 15px #00ffe1;
+
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
 }
 
 button:active {
@@ -27,51 +35,11 @@ button:active {
   color: #000;
 }
 
-.hidden { display: none; }
-
-.progress-container {
-  width: 80%;
-  height: 20px;
-  border: 1px solid #00ffe1;
-  margin: 30px auto;
+.hidden {
+  display: none;
 }
 
-#progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #00ffe1, #ff00ff);
-}
-
-table {
-  margin: auto;
-  border-collapse: collapse;
-}
-
-td {
-  border: 1px solid #00ffe1;
-  padding: 8px 14px;
-  text-shadow: 0 0 5px #00ffe1;
-}
-
-.crt-overlay {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.15),
-    rgba(0,0,0,0.15) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  animation: flicker 0.15s infinite;
-}
-
-@keyframes flicker {
-  0% { opacity: 0.9; }
-  50% { opacity: 1; }
-  100% { opacity: 0.95; }
-}
+/* ===== HOME ===== */
 .logo {
   margin-bottom: 30px;
 }
@@ -106,12 +74,47 @@ td {
   cursor: default;
   opacity: 0.6;
 }
+
+/* ===== ANALYSIS ===== */
 .analysis-note,
 .analysis-legend {
   font-size: 11px;
   opacity: 0.7;
   margin-top: 15px;
 }
+
+/* ===== LOADING ===== */
+.progress-container {
+  width: 80%;
+  height: 20px;
+  border: 1px solid #00ffe1;
+  margin: 30px auto;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00ffe1, #ff00ff);
+}
+
+/* ===== RESULTS ===== */
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #00ffe1;
+  padding: 8px 14px;
+  text-shadow: 0 0 5px #00ffe1;
+}
+
+#qualityAlert {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* ===== ALARM ===== */
 .alarm {
   animation: alarmFlash 0.4s infinite;
 }
@@ -120,4 +123,25 @@ td {
   0% { background-color: #000; }
   50% { background-color: #220000; }
   100% { background-color: #000; }
+}
+
+/* ===== CRT ===== */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15),
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.9; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
 }
