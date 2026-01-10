@@ -1,31 +1,10 @@
-let startTime = 0;
-
-function startPress() {
-  startTime = Date.now();
-}
-
-function endPress() {
-  if (!startTime) return;
-  const duration = (Date.now() - startTime) / 1000;
-  startTime = 0;
-  startLoading(duration);
-}
-
-scanButton.addEventListener("mousedown", startPress);
-scanButton.addEventListener("mouseup", endPress);
-
-scanButton.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  startPress();
-});
-
-scanButton.addEventListener("touchend", endPress);
-scanButton.addEventListener("touchcancel", () => startTime = 0);
-
+let startTime = null;
 let mode = null;
+let chartInstance = null;
 
 const scanButton = document.getElementById("scanButton");
 
+/* ===== NAV ===== */
 function startAnalysis(type) {
   mode = type;
   document.getElementById("home").classList.add("hidden");
@@ -34,15 +13,25 @@ function startAnalysis(type) {
     type === "fuel" ? "Analiza jakości paliwa" : "Analiza toksyn";
 }
 
-scanButton.addEventListener("mousedown", () => {
+/* ===== PRESS HANDLING (MOBILE SAFE) ===== */
+function pressStart(e) {
+  e.preventDefault();
   startTime = Date.now();
-});
+}
 
-scanButton.addEventListener("mouseup", () => {
+function pressEnd() {
+  if (!startTime) return;
   const duration = (Date.now() - startTime) / 1000;
+  startTime = null;
   startLoading(duration);
-});
+}
 
+scanButton.addEventListener("pointerdown", pressStart);
+scanButton.addEventListener("pointerup", pressEnd);
+scanButton.addEventListener("pointercancel", () => startTime = null);
+scanButton.addEventListener("pointerleave", () => startTime = null);
+
+/* ===== LOADING ===== */
 function startLoading(time) {
   document.getElementById("analysis").classList.add("hidden");
   document.getElementById("loading").classList.remove("hidden");
@@ -71,6 +60,7 @@ function startLoading(time) {
   }, 300);
 }
 
+/* ===== RESULTS ===== */
 function showResults(time) {
   document.getElementById("loading").classList.add("hidden");
   document.getElementById("results").classList.remove("hidden");
@@ -80,24 +70,28 @@ function showResults(time) {
   else if (time <= 3) quality = "medium";
   else quality = "bad";
 
-  if (quality === "bad") {
+  const alert = document.getElementById("qualityAlert");
+
+  if (quality === "good") {
+    alert.innerText = "🟢 JAKOŚĆ WYSOKA — zgodność z normami.";
+  } else if (quality === "medium") {
+    alert.innerText = "🟡 JAKOŚĆ ŚREDNIA — zalecana filtracja.";
+  } else {
+    alert.innerText = "🔴 ALERT — KRYTYCZNE ZANIECZYSZCZENIE.";
     document.body.classList.add("alarm");
   }
 
   const data = buildData(quality);
   renderTable(data);
   renderChart(data, quality);
-  const alert = document.getElementById("qualityAlert");
-
-if (quality === "good") alert.innerText = "🟢 JAKOŚĆ WYSOKA – próbka zgodna z normami.";
-if (quality === "medium") alert.innerText = "🟡 JAKOŚĆ ŚREDNIA – zalecana filtracja.";
-if (quality === "bad") alert.innerText = "🔴 ALERT – WYSOKI POZIOM ZANIECZYSZCZEŃ.";
-
 }
 
-
 function buildData(quality) {
-  const base = quality === "good" ? 20 : quality === "medium" ? 55 : 85;
+  const base =
+    quality === "good" ? 20 :
+    quality === "medium" ? 55 :
+    85;
+
   return [
     { name: "Zanieczyszczenia", value: base + rand() },
     { name: "Stabilność", value: 100 - base + rand() },
@@ -109,6 +103,7 @@ function rand() {
   return Math.floor(Math.random() * 10 - 5);
 }
 
+/* ===== TABLE ===== */
 function renderTable(data) {
   const table = document.getElementById("resultsTable");
   table.innerHTML = "";
@@ -117,33 +112,41 @@ function renderTable(data) {
   });
 }
 
+/* ===== CHART ===== */
 function renderChart(data, quality) {
-  const colors =
-    quality === "good" ? ["#00ff66"] :
-    quality === "medium" ? ["#ffaa00"] :
-    ["#ff0033"];
+  const ctx = document.getElementById("chart").getContext("2d");
 
-  new Chart(document.getElementById("chart"), {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  const color =
+    quality === "good" ? "#00ff66" :
+    quality === "medium" ? "#ffaa00" :
+    "#ff0033";
+
+  chartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: data.map(d => d.name),
       datasets: [{
+        label: "Indeks (0–100)",
         data: data.map(d => d.value),
-        backgroundColor: colors
+        backgroundColor: data.map(() => color)
       }]
     },
     options: {
+      animation: false,
       scales: {
         y: {
           min: 0,
           max: 100,
           title: {
             display: true,
-            text: "Skala: 0–100 (ppm / indeks czystości)"
+            text: "Skala pomiarowa (0–100)"
           }
         }
       }
     }
   });
 }
-
