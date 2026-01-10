@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+  background: radial-gradient(circle at top, #0a0f14, #000);
+  color: #00ffe1;
+  font-family: 'Orbitron', monospace;
+  text-align: center;
+  overflow: hidden;
+}
+
+h1, h2 { text-shadow: 0 0 8px #00ffe1; }
+
+button {
+  background: transparent;
+  border: 2px solid #00ffe1;
+  color: #00ffe1;
+  padding: 18px;
+  margin: 15px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 0 15px #00ffe1;
+}
+
+button:active {
+  background: #00ffe1;
+  color: #000;
+}
+
+.hidden { display: none; }
+
+.progress-container {
+  width: 80%;
+  height: 20px;
+  border: 1px solid #00ffe1;
+  margin: 30px auto;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00ffe1, #ff00ff);
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #00ffe1;
+  padding: 8px 14px;
+  text-shadow: 0 0 5px #00ffe1;
+}
+
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15),
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.9; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
+}

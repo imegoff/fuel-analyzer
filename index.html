@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Analyzer v4.7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div id="home">
+  <h1>ANALYZER v4.7</h1>
+  <button onclick="startAnalysis('fuel')">Analiza jakości paliwa</button>
+  <button onclick="startAnalysis('toxin')">Analiza toksyn</button>
+</div>
+
+<div id="analysis" class="hidden">
+  <h2 id="analysisTitle"></h2>
+  <button id="scanButton">TRZYMAJ ABY SKANOWAĆ</button>
+</div>
+
+<div id="loading" class="hidden">
+  <h2>SCANNING...</h2>
+  <div class="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+  <p id="loadingText">Inicjalizacja sensorów...</p>
+</div>
+
+<div id="results" class="hidden">
+  <h2>Wyniki analizy</h2>
+  <table id="resultsTable"></table>
+  <canvas id="chart"></canvas>
+  <button onclick="location.reload()">Nowa analiza</button>
+</div>
+
+<div class="crt-overlay"></div>
+
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>

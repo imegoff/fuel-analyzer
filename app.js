@@ -1,0 +1,92 @@
+let startTime = 0;
+let mode = null;
+
+const scanButton = document.getElementById("scanButton");
+
+function startAnalysis(type) {
+  mode = type;
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("analysis").classList.remove("hidden");
+  document.getElementById("analysisTitle").innerText =
+    type === "fuel" ? "Analiza jakości paliwa" : "Analiza toksyn";
+}
+
+scanButton.addEventListener("mousedown", () => {
+  startTime = Date.now();
+});
+
+scanButton.addEventListener("mouseup", () => {
+  const duration = (Date.now() - startTime) / 1000;
+  startLoading(duration);
+});
+
+function startLoading(time) {
+  document.getElementById("analysis").classList.add("hidden");
+  document.getElementById("loading").classList.remove("hidden");
+
+  const bar = document.getElementById("progress-bar");
+  const text = document.getElementById("loadingText");
+
+  let progress = 0;
+  const messages = [
+    "Kalibracja sensorów...",
+    "Analiza spektrum...",
+    "Dekodowanie próbek...",
+    "Symulacja reakcji...",
+    "Finalizacja raportu..."
+  ];
+
+  const interval = setInterval(() => {
+    progress += Math.random() * 12;
+    bar.style.width = Math.min(progress, 100) + "%";
+    text.innerText = messages[Math.floor(Math.random() * messages.length)];
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => showResults(time), 600);
+    }
+  }, 300);
+}
+
+function showResults(time) {
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("results").classList.remove("hidden");
+
+  let quality = time < 1 ? "good" : time <= 3 ? "medium" : "bad";
+  const data = buildData(quality);
+  renderTable(data);
+  renderChart(data);
+}
+
+function buildData(quality) {
+  const base = quality === "good" ? 20 : quality === "medium" ? 55 : 85;
+  return [
+    { name: "Zanieczyszczenia", value: base + rand() },
+    { name: "Stabilność", value: 100 - base + rand() },
+    { name: "Toksyczność", value: base + rand() }
+  ];
+}
+
+function rand() {
+  return Math.floor(Math.random() * 10 - 5);
+}
+
+function renderTable(data) {
+  const table = document.getElementById("resultsTable");
+  table.innerHTML = "";
+  data.forEach(d => {
+    table.innerHTML += `<tr><td>${d.name}</td><td>${d.value}</td></tr>`;
+  });
+}
+
+function renderChart(data) {
+  new Chart(document.getElementById("chart"), {
+    type: "bar",
+    data: {
+      labels: data.map(d => d.name),
+      datasets: [{
+        data: data.map(d => d.value)
+      }]
+    }
+  });
+}
