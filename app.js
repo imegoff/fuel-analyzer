@@ -111,14 +111,33 @@ function renderTable(data) {
   });
 }
 
-function renderChart(data) {
+function renderChart(data, quality) {
+  const colors =
+    quality === "good" ? ["#00ff66"] :
+    quality === "medium" ? ["#ffaa00"] :
+    ["#ff0033"];
+
   new Chart(document.getElementById("chart"), {
     type: "bar",
     data: {
       labels: data.map(d => d.name),
       datasets: [{
-        data: data.map(d => d.value)
+        data: data.map(d => d.value),
+        backgroundColor: colors
       }]
+    },
+    options: {
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          title: {
+            display: true,
+            text: "Skala: 0–100 (ppm / indeks czystości)"
+          }
+        }
+      }
     }
   });
 }
+
