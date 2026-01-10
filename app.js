@@ -1,4 +1,27 @@
 let startTime = 0;
+
+function startPress() {
+  startTime = Date.now();
+}
+
+function endPress() {
+  if (!startTime) return;
+  const duration = (Date.now() - startTime) / 1000;
+  startTime = 0;
+  startLoading(duration);
+}
+
+scanButton.addEventListener("mousedown", startPress);
+scanButton.addEventListener("mouseup", endPress);
+
+scanButton.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  startPress();
+});
+
+scanButton.addEventListener("touchend", endPress);
+scanButton.addEventListener("touchcancel", () => startTime = 0);
+
 let mode = null;
 
 const scanButton = document.getElementById("scanButton");
