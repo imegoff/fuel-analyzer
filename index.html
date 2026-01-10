@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>Analyzer v4.7</title>
+  <title>HexaChem Analyzer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- ===== HOME ===== -->
 <div id="home">
   <div class="logo">
     <h1>HEXACHEM INDUSTRIES</h1>
@@ -22,13 +23,13 @@
   <div class="fluff">
     <p class="warning">
       ⚠️ Wyniki analizy mają charakter informacyjny.  
-      HexaChem Industries nie ponosi odpowiedzialności za decyzje
+      Producent nie ponosi odpowiedzialności za decyzje
       podjęte na podstawie odczytów urządzenia.
     </p>
 
     <p class="update">
-      🔒 Dostępna nowa wersja ANALYZER v5.0  
-      (rozszerzone spektrum, certyfikacja korporacyjna)  
+      🔒 Analyzer v5.0 dostępny w wersji korporacyjnej  
+      (rozszerzone spektrum, certyfikacja)  
       <span class="locked">— dostęp odpłatny</span>
     </p>
 
@@ -40,23 +41,26 @@
   </div>
 </div>
 
-
+<!-- ===== ANALYSIS ===== -->
 <div id="analysis" class="hidden">
   <h2 id="analysisTitle"></h2>
-  <button id="scanButton">TRZYMAJ ABY SKANOWAĆ</button>
+
+  <button id="scanButton">ROZPOCZNIJ ANALIZĘ</button>
+
+  <p class="analysis-note">
+    Analiza prowadzona zgodnie ze standardami
+    HexaChem Industrial Screening™.
+  </p>
+
+  <p class="analysis-legend">
+    Interpretacja wyników:
+    <br>🟢 Zgodność z normami przemysłowymi
+    <br>🟡 Odchylenia w granicach tolerancji
+    <br>🔴 Krytyczne przekroczenie parametrów
+  </p>
 </div>
-<p class="analysis-note">
-  Urządzenie analizuje próbkę w oparciu o standardy
-  HexaChem Industrial Screening™.
-</p>
 
-<p class="analysis-legend">
-  Interpretacja:
-  <br>🟢 Krótki skan — wysoka jakość
-  <br>🟡 Średni czas — jakość akceptowalna
-  <br>🔴 Długi skan — zanieczyszczenie / toksyny
-</p>
-
+<!-- ===== LOADING ===== -->
 <div id="loading" class="hidden">
   <h2>SCANNING...</h2>
   <div class="progress-container">
@@ -65,11 +69,16 @@
   <p id="loadingText">Inicjalizacja sensorów...</p>
 </div>
 
+<!-- ===== RESULTS ===== -->
 <div id="results" class="hidden">
   <h2>Wyniki analizy</h2>
-<p id="qualityAlert"></p>
+
+  <p id="qualityAlert"></p>
+
   <table id="resultsTable"></table>
+
   <canvas id="chart"></canvas>
+
   <button onclick="location.reload()">Nowa analiza</button>
 </div>
 
